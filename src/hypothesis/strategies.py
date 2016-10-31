@@ -173,26 +173,16 @@ def one_of(*args):
         except TypeError:
             pass
 
-    # If we have another one_of() in the list of arguments, pick out
-    # its underlying strategies
-    from hypothesis.searchstrategy.strategies import OneOfStrategy
-    strategies = []
     for arg in args:
-        if isinstance(arg, OneOfStrategy):
-            strategies.extend(arg.element_strategies)
-        else:
-            strategies.append(arg)
+        check_strategy(arg)
+    args = [a for a in args if not a.is_empty]
 
-    for strategy in strategies:
-        check_strategy(strategy)
-    strategies = [a for a in strategies if not a.is_empty]
-
-    if not strategies:
+    if not args:
         return nothing()
-    if len(strategies) == 1:
-        return strategies[0]
+    if len(args) == 1:
+        return args[0]
     from hypothesis.searchstrategy.strategies import OneOfStrategy
-    return OneOfStrategy(strategies)
+    return OneOfStrategy(args)
 
 
 @cacheable
