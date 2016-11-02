@@ -177,7 +177,7 @@ def one_of(*args):
     for arg in args:
         check_strategy(arg)
         if not arg.is_empty:
-            strategies.extend(arg.branches)
+            strategies.extend([s for s in arg.branches if not s.is_empty])
 
     if not strategies:
         return nothing()
