@@ -182,7 +182,7 @@ def one_of(*args):
     if not strategies:
         return nothing()
     if len(strategies) == 1:
-        return args[0]
+        return strategies[0]
     from hypothesis.searchstrategy.strategies import OneOfStrategy
     return OneOfStrategy(strategies)
 
